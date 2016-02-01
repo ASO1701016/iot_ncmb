@@ -31,47 +31,11 @@
     },false);
 
     function displayTimeline() {
-        var Status = ncmb.DataStore("DoorData");
-        Status.order("createDate", true)
-            .limit(30)
-            .fetchAll()
-            .then(function(results){
-                for (var i = 0; i < results.length; i++) {
-                    var object = results[i];
-                    var item = {};
-                    item.type = "smallItem";
-                    item.label = displayDateTime(convertDate(object.createDate));
-                    if (object.status == 1) {
-                        item.shortContent = "閉 CLOSED";
-                    } else {
-                        item.shortContent = "開 OPENED";
-                    }
-                    item.forcePosition = 'right';
-                    items[i] = item;
-                }
-                $('#timeline-container').timelineMe({
-                    items
-                });
-            })
-            .catch(function(err){
-                console.log(err);
-            });
+      //タイムラインを表示するコードをここに追加します  
     }
 
     function displayStatusImage() {
-        var Status = ncmb.DataStore("DoorData");
-        Status.order("createDate", true)
-            .fetch()
-            .then(function(result){
-                    if(result.status == 1) {
-                        $("#statusImg").attr("src", "image/closed.png" );
-                    } else {
-                        $("#statusImg").attr("src", "image/open.png" );
-                    }
-            })
-            .catch(function(err){
-                console.log(err);
-            });
+      //ドアのステータスを表示するコードをここに追加します
     }
 
     function convertDate(utcString) {
