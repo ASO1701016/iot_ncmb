@@ -11,12 +11,12 @@
     <script type="text/javascript" src="timeline/jquery.timelineMe.js"></script>
 
     <script>
-    
+
     var applicationKey = "APPLICATION KEY";
     var clientKey = "CLIENT KEY";
     var ncmb = new NCMB(applicationKey, clientKey);
     var items = [];
-    
+
     document.addEventListener("deviceready", function()
     {
         window.NCMB.monaca.setHandler
@@ -28,10 +28,10 @@
         window.NCMB.monaca.setDeviceToken(
              applicationKey, clientKey,"ANDROID_SET_KEY" );
         window.NCMB.monaca.setReceiptStatus(true);
-    },false); 
-    
-    function displayTimeline() {     
-        var Status = ncmb.DataStore("Switch"); 
+    },false);
+
+    function displayTimeline() {
+        var Status = ncmb.DataStore("DoorData");
         Status.order("createDate", true)
             .limit(30)
             .fetchAll()
@@ -40,8 +40,8 @@
                     var object = results[i];
                     var item = {};
                     item.type = "smallItem";
-                    item.label = displayDateTime(convertDate(object.createDate)); 
-                    if (object.DoorStatus == 1) {
+                    item.label = displayDateTime(convertDate(object.createDate));
+                    if (object.status == 1) {
                         item.shortContent = "閉 CLOSED";
                     } else {
                         item.shortContent = "開 OPENED";
@@ -57,13 +57,13 @@
                 console.log(err);
             });
     }
-      
+
     function displayStatusImage() {
-        var Status = ncmb.DataStore("Switch");
+        var Status = ncmb.DataStore("DoorData");
         Status.order("createDate", true)
             .fetch()
             .then(function(result){
-                    if(result.DoorStatus == 1) {
+                    if(result.status == 1) {
                         $("#statusImg").attr("src", "image/closed.png" );
                     } else {
                         $("#statusImg").attr("src", "image/open.png" );
@@ -71,20 +71,20 @@
             })
             .catch(function(err){
                 console.log(err);
-            });          
+            });
     }
-    
+
     function convertDate(utcString) {
         var regexp = new RegExp(
           "^([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2})" + "T" +
           "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})" +
           "(.([0-9]+))?" + "Z$");
-        var match = regexp.exec(utcString); 
+        var match = regexp.exec(utcString);
         if (!match) {
           return null;
         }
         var year = match[1] || 0;
-        var month = (match[2] || 1) - 1;  
+        var month = (match[2] || 1) - 1;
         var day = match[3] || 0;
         var hour = match[4] || 0;
         var minute = match[5] || 0;
@@ -92,7 +92,7 @@
         var milli = match[8] || 0;
         return new Date(Date.UTC(year, month, day, hour, minute, second, milli));
     }
-    
+
     function displayDateTime(d) {
         return d.getUTCFullYear()+'-'
           + (d.getMonth()+1) +'-'
@@ -101,20 +101,20 @@
           + d.getMinutes()+':'
           + d.getSeconds();
     }
-  
+
     $(document).ready(function() {
         displayTimeline();
         displayStatusImage();
     });
 
-   
+
     </script>
 </head>
 <body>
 <center>
     <div class="status-img">
         現在の状態<br />
-        <img src="" id="statusImg" height="100"> </img> 
+        <img src="" id="statusImg" height="100"> </img>
     </div>
     タイムライン<br />
     <div style="background-color:#C6D6F0;height: 300px; overflow: auto;" id="timeline-container"></div>
