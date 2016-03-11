@@ -12,23 +12,11 @@
 
     <script>
 
-    var applicationKey = "APPLICATION KEY";
-    var clientKey = "CLIENT KEY";
+    var applicationKey = "APPLICATION_KEY";
+    var clientKey = "CLIENT_KEY";
     var ncmb = new NCMB(applicationKey, clientKey);
     var items = [];
 
-    document.addEventListener("deviceready", function()
-    {
-        window.NCMB.monaca.setHandler
-        (
-            function(jsonData){
-                alert("callback :::" + JSON.stringify(jsonData));
-            }
-        );
-        window.NCMB.monaca.setDeviceToken(
-             applicationKey, clientKey,"ANDROID_SET_KEY" );
-        window.NCMB.monaca.setReceiptStatus(true);
-    },false);
 
     function displayStatusImage() {
       //ドアのステータスを表示するコードをここに追加します
