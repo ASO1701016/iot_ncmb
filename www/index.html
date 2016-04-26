@@ -12,18 +12,21 @@
 
     <script>
 
-    var applicationKey = "APPLICATION_KEY";
-    var clientKey = "CLIENT_KEY";
-    var ncmb = new NCMB(applicationKey, clientKey);
+    //STEP 0: APIキーを設定し、初期化を行います
+
+
     var items = [];
 
-
     function displayStatusImage() {
-      //ドアのステータスを表示するコードをここに追加します
+      //STEP 1. ドアのステータスを表示するコードをここに追加します
+      //STEP 1.1 DoorDataクラスを検索するオブジェクトを準備
+      //STEP 1.2 DoorDataクラスを検索条件を設定し、検索
     }
 
     function displayTimeline() {
-      //タイムラインを表示するコードをここに追加します
+      //STEP 2. タイムラインを表示するコードをここに追加します
+      //STEP 2.1 DoorDataクラスを検索するオブジェクトを準備
+      //STEP 1.2 DoorDataクラスを検索条件を設定し、検索
     }
 
     function convertDate(utcString) {
@@ -68,7 +71,7 @@
         現在の状態<br />
         <img src="" id="statusImg" height="100"> </img>
     </div>
-    <a href="">タイムライン</a><br />
+    <a href="">更新</a><br />
     <div style="background-color:#C6D6F0;height: 300px; overflow: auto;" id="timeline-container"></div>
 </center>
 </body>
