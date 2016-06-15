@@ -29,6 +29,10 @@
       //STEP 2.2 DoorDataクラスを検索条件を設定し、検索
     }
 
+    //STEP 3 プッシュ通知準備
+
+    
+
     function convertDate(utcString) {
         var regexp = new RegExp(
           "^([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2})" + "T" +
@@ -62,6 +66,11 @@
         displayStatusImage();
     });
 
+    document.addEventListener("resume", onResume, false);
+    function onResume() {
+        displayTimeline();
+        displayStatusImage();
+    }
 
     </script>
 </head>
