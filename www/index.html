@@ -13,25 +13,70 @@
     <script>
 
     //STEP 0: APIキーを設定し、初期化を行います
-
+    var applicationKey = "APPLICATION_KEY";
+    var clientKey = "CLIENT_KEY";
+    var ncmb = new NCMB(applicationKey, clientKey);
 
     var items = [];
 
     function displayStatusImage() {
-      //STEP 1. ドアのステータスを表示するコードをここに追加します
-      //STEP 1.1 DoorDataクラスを検索するオブジェクトを準備
-      //STEP 1.2 DoorDataクラスを検索条件を設定し、検索
+        //STEP 1. ドアのステータスを表示するコードをここに追加します
+        var Status = ncmb.DataStore("DoorData");
+        //STEP 1.1 DoorDataクラスを検索するオブジェクトを準備
+        Status.order("createDate", true)
+            .fetch()
+            .then(function(result){
+                //STEP 1.2.1 検索結果を処理し、表示
+                if(result.status == 1) {
+                        $("#statusImg").attr("src", "image/closed.png" );
+                    } else {
+                        $("#statusImg").attr("src", "image/open.png" );
+                    }
+            })
+            .catch(function(err){
+                console.log(err);
+            });
     }
 
     function displayTimeline() {
-      //STEP 2. タイムラインを表示するコードをここに追加します
-      //STEP 2.1 DoorDataクラスを検索するオブジェクトを準備
-      //STEP 2.2 DoorDataクラスを検索条件を設定し、検索
+        //STEP 2. タイムラインを表示するコードをここに追加します
+        var Status = ncmb.DataStore("DoorData");
+        //STEP 2.1 DoorDataクラスを検索するオブジェクトを準備
+        Status.order("createDate", true)
+            .limit(30)
+            .fetchAll()
+            .then(function(results){
+                //STEP 2.2.1 検索結果を処理し、表示
+                for (var i = 0; i < results.length; i++) {
+                    var object = results[i];
+                    var item = {};
+                    item.type = "smallItem";
+                    item.label = displayDateTime(convertDate(object.createDate));
+                    if (object.status == 1) {
+                        item.shortContent = "閉 CLOSED";
+                    } else {
+                        item.shortContent = "開 OPENED";
+                    }
+                    item.forcePosition = 'right';
+                    items[i] = item;
+                }
+                $('#timeline-container').timelineMe({"items": items});
+            })
+            .catch(function(err){
+                console.log(err);
+            });
     }
 
     //STEP 3 プッシュ通知準備
+    document.addEventListener("deviceready", function(){
+            // デバイストークンを取得してinstallationに登録する
+            window.NCMB.monaca.setDeviceToken(
+                applicationKey,
+                clientKey,
+                "PROJECT_NUMBER(Android_only)"
+            );
+    },false);
 
-    
 
     function convertDate(utcString) {
         var regexp = new RegExp(
