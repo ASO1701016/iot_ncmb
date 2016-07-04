@@ -1,7 +1,6 @@
 {
     "plugins": [
-        "mobi.monaca.plugins.Monaca",
-        "plugin.push.nifty"
+        "mobi.monaca.plugins.Monaca"
     ],
     "framework_version": "3.5",
     "xcode_version": "6",
